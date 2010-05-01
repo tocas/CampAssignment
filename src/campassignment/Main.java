@@ -31,28 +31,22 @@ public class Main {
 
         int countOfSections = 2;
 
-        int membersInSection = root.largeOfSection() % countOfSections;
+        int membersInSection = root.largeOfSection() / countOfSections;
 
-        int numberOverSections = root.largeOfSection() - membersInSection * countOfSections;
+        int numberOverSections = root.largeOfSection() % countOfSections;;
 
         int normalSection = countOfSections - numberOverSections;
-        int k = 0;
+
         for(int i = 0; i < normalSection;i++){
-            Section tmp = new Section();
-            for(int j = 0; j < membersInSection;j++){
-                tmp.addMember(root.getMemebers().get(i*membersInSection+j));
-            }
+            Section tmp = new Section(root.assignCampers(membersInSection));
             sections.add(tmp);
-            k = i;
         }
 
-        for(int i = k; i < normalSection+numberOverSections;i++){
-            Section tmp = new Section();
-            for(int j = 0; j < membersInSection+1;j++){
-                tmp.addMember(root.getMemebers().get(i*membersInSection+j));
-            }
+        for(int i = membersInSection;i<membersInSection+numberOverSections;i++){
+            Section tmp = new Section(root.assignCampers(membersInSection+1));
             sections.add(tmp);
         }
+
 
         //Show Assignment
 

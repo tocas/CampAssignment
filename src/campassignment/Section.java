@@ -23,11 +23,13 @@ public class Section {
 
     public Section(ArrayList<Camper> members){
         this.members = members;
+        Collections.sort(this.members);
     }
 
     public Section(String name,ArrayList<Camper> members){
         this.name = name;
         this.members = members;
+         Collections.sort(this.members);
     }
 
     public ArrayList<Camper> getMemebers(){
@@ -53,12 +55,22 @@ public class Section {
         return members.size();
     }
 
+    @Override
     public String toString(){
         String retrunString = "List of members section " + this.name;
         for(Camper c : members){
             retrunString = retrunString + "\n" + c.toString();
         }
         return retrunString;
+    }
+
+    public ArrayList<Camper> assignCampers(int count){
+        if(count > members.size()) return new ArrayList<Camper>();
+        ArrayList<Camper> tmp = new ArrayList<Camper>();
+        for(int i = 0; i < count;i++){
+            tmp.add(members.remove(0));
+        }
+        return tmp;
     }
 
 
