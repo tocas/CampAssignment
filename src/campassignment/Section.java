@@ -73,6 +73,14 @@ public class Section {
         return tmp;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
 
 }
