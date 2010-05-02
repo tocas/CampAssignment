@@ -61,6 +61,7 @@ public class Section {
         for(Camper c : members){
             retrunString = retrunString + "\n" + c.toString();
         }
+        retrunString = retrunString +"\n Max difference is: " + maxDifference();
         return retrunString;
     }
 
@@ -73,12 +74,25 @@ public class Section {
         return tmp;
     }
 
+    public Camper getCamperForSwitch(){
+        return members.remove(0);
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Section hardCopy(){
+        Section tmp = new Section();
+        for (Camper camper : members) {
+            tmp.addMember(camper.hadrCopy());
+        }
+        tmp.setName(this.name);
+        return tmp;
     }
 
 

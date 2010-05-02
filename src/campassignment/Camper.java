@@ -57,5 +57,9 @@ public class Camper implements Comparable<Camper>{
        return Math.abs(a.age - b.age);
     }
 
+    public Camper hadrCopy(){
+        return new Camper(this.ID,this.name,this.age);
+
+    }
 
 }
