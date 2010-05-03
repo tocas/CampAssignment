@@ -12,9 +12,10 @@ package campassignment;
 public class Camper implements Comparable<Camper>{
     private int ID;
     private String name;
+    private int gendar;
     private int age;
 
-    public Camper(int ID, String name, int age){
+    public Camper(int ID, String name, int age,int gendar){
         this.ID = ID;
         this.name = name;
         this.age = age;
@@ -46,7 +47,7 @@ public class Camper implements Comparable<Camper>{
 
     @Override
     public String toString(){
-        return ID+" "+name+" "+age;
+        return ID+" "+name+" "+age + " " + gendar;
     }
 
     public int compareTo(Camper c){
@@ -58,7 +59,7 @@ public class Camper implements Comparable<Camper>{
     }
 
     public Camper hadrCopy(){
-        return new Camper(this.ID,this.name,this.age);
+        return new Camper(this.ID,this.name,this.age,this.gendar);
 
     }
 
