@@ -10,8 +10,6 @@
 
 3. Build and run it	
 
-        
-
 
 ## Project overview
 
@@ -21,12 +19,36 @@
 		- difference between count Campers in Sections it equal max. 1
 		- difference between age Campers in Section is minumum
 
+  Algoritm for find optimal members in Sections
+  
+  1. sort all member by age
+  2. split into sections, 
+    if count of member is not divide cout of Sections than last Sections has +1 member
+  3. optimization result of function getSumMaxDifference
+    Using switching Camper between Sections create new instances
+    Select instances with the lowest result from function getSumMaxDifference()
+  
+  
+## Using program
+
+  In directory dist is CampAssignment.jar for download
+  
+  Usage from CLI:
+  java -jar CampAssignment.jar <fileName> <numberOfSections>
+  
+  <fileName> is CSV file with this fields separated with ";"
+    1. field = ID (integer value)
+    2. field = First name of camper
+    3. field = Second name of camper
+    4. field = sex {male = 0, female = 1}
+    5. field = day of Birth in format dd.MM.yyyy
+    
+  <numberOfSections> integer value, into how many Sections you would like split members
+
 
 ## Authors
 
 * Tomas Lucovic, <tomaslucovic@gmail.com>
-
-
 
 ## Copyright
 
