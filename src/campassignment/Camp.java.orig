@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
 
@@ -19,10 +18,10 @@ import java.util.StringTokenizer;
 public class Camp {
 
     private ArrayList<Section> sections = new ArrayList<Section>();
-    private ArrayList<Camper> leaders = new ArrayList<Camper>();
     private Section root = new Section();
     private int countOfSections = 0;
     private int countOfOverSections = 0;
+    private ArrayList<Camper> leaders = new ArrayList<Camper>();
 
     public Camp(int countOfSections) {
         this.countOfSections = countOfSections;
@@ -77,6 +76,7 @@ public class Camp {
             String strLine = "";
             StringTokenizer st = null;
             int lineNumber = 0, tokenNumber = 0;
+            Camper tmp = null;
 
             //read comma separated file line by line
             while ((strLine = br.readLine()) != null) {
@@ -100,11 +100,16 @@ public class Camp {
                         case 5:
                             stringDate = st.nextToken();
                     }
-                   members.add(new Camper(ID, name, computeAge(stringDate), gendar));
+                    tmp = new Camper(ID, name, computeAge(stringDate), gendar);
+                    if(lineNumber < 6) {
+                        tmp.setSectionLeader(lineNumber -1);
+                        leaders.add(tmp);
+                    }
+                   members.add(tmp);
                 }
 
                 //reset token number
-                tokenNumber = 0;
+                 tokenNumber = 0;
 
             }
 
@@ -119,34 +124,36 @@ public class Camp {
         root = new Section("Full members", members);
     }
 
-    public void setupLeaders(){
-        for (Camper camper : root.assignCampers(countOfSections)) {
-            leaders.add(camper);
-        }
-    }
-
     public void assignmentCampers() {
-        root.sortSection();
         if (countOfSections == 0) {
             return;
         }
+
+        sections = new ArrayList<Section>(countOfSections);
         int membersInSection = root.largeOfSection() / countOfSections;
 
         countOfOverSections = root.largeOfSection() % countOfSections;
 
         int normalSection = countOfSections - countOfOverSections;
 
-        int sectionNumber = 0;
+
+
+        for (int i = 0; i < leaders.size(); i++) {
+            sections.add(new Section());
+            sections.get(i).addMember(leaders.remove(i));
+        }
+
+        int order = 0;
         for (int i = 0; i < normalSection; i++) {
-            Section tmp = new Section(root.assignCampers(membersInSection));
-            if(sectionNumber < leaders.size()) tmp.setLeader(leaders.get(sectionNumber++));
-            sections.add(tmp);
+            Section tmp = new Section(root.assignCampers(membersInSection-1));
+            tmp.setOrder(order++);
+            sections.get(i).addMembers(tmp.getMemebers());
         }
 
         for (int i = membersInSection; i < membersInSection + countOfOverSections; i++) {
-            Section tmp = new Section(root.assignCampers(membersInSection + 1));
-            if(sectionNumber < leaders.size()) tmp.setLeader(leaders.get(sectionNumber++));
-            sections.add(tmp);
+            Section tmp = new Section(root.assignCampers(membersInSection));
+            tmp.setOrder(order++);
+            sections.get(i).addMembers(tmp.getMemebers());
         }
     }
 
@@ -217,7 +224,6 @@ public class Camp {
             return camp;
         }
         ArrayList<Camp> allPosibility = new ArrayList<Camp>();
-        allPosibility.add(camp);
         Camp tmp = camp.hardCopy();
         int startIndex = camp.countOfSections - camp.countOfOverSections;
 
@@ -232,10 +238,16 @@ public class Camp {
         Camp solution = new Camp(camp.countOfOverSections);
         for (Camp camp1 : allPosibility) {
             if (cmax > camp1.getSumMaxDifference()) {
-                cmax = camp1.getSumMaxDifference();
                 solution = camp1;
             }
         }
         return solution;
     }
+
+    public Camp assignmentLeaders(){
+        return this;
+    }
+
+
+
 }

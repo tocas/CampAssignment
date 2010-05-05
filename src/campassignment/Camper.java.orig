@@ -12,13 +12,40 @@ package campassignment;
 public class Camper implements Comparable<Camper>{
     private int ID;
     private String name;
+
+
     private int gendar;
     private int age;
+    private int sectionLeader = -1;
+
+    public int getGendar() {
+        return gendar;
+    }
+
+    public void setGendar(int gendar) {
+        this.gendar = gendar;
+    }
+    public int getSectionLeader() {
+        return sectionLeader;
+    }
+
+    public void setSectionLeader(int sectionLeader) {
+        this.sectionLeader = sectionLeader;
+    }
 
     public Camper(int ID, String name, int age,int gendar){
         this.ID = ID;
         this.name = name;
         this.age = age;
+        this.gendar = gendar;
+    }
+
+    public Camper(int ID, String name, int age,int gendar, int sectionLeader){
+        this.ID = ID;
+        this.name = name;
+        this.age = age;
+        this.gendar = gendar;
+        this.sectionLeader = sectionLeader;
     }
 
     public int getID() {
@@ -47,7 +74,8 @@ public class Camper implements Comparable<Camper>{
 
     @Override
     public String toString(){
-        return ID+" "+name+" "+age + " " + gendar;
+        if(sectionLeader == -1) return ID+" "+name+" "+age + " " + gendar;
+        return ID+" "+name+" "+age + " " + gendar + " is leader of " + sectionLeader + " section";
     }
 
     public int compareTo(Camper c){
@@ -55,13 +83,11 @@ public class Camper implements Comparable<Camper>{
     }
 
     public static int getDifference(Camper a, Camper b){
-       if(a == null) return 0;
        return Math.abs(a.age - b.age);
     }
 
     public Camper hadrCopy(){
-        return new Camper(this.ID,this.name,this.age,this.gendar);
-
+        return new Camper(this.ID,this.name,this.age,this.gendar,this.sectionLeader);
     }
 
 }
