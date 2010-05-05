@@ -18,6 +18,8 @@
 	Project follow this conditions:
 		- difference between count Campers in Sections it equal max. 1
 		- difference between age Campers in Section is minumum
+                - every sections can have assign leader
+                - difference between age Campers in Section is calculate included leader
 
   Algoritm for find optimal members in Sections
   
@@ -44,7 +46,7 @@
     5. field = day of Birth in format dd.MM.yyyy
     
   <numberOfSections> integer value, into how many Sections you would like split members
-
+  First <numberOfSection> campers are assign as leader in their file order
 
 ## Authors
 
