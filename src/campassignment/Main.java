@@ -24,8 +24,9 @@ public class Main {
         camp.assignmentCampers();
         System.out.println(camp.toString());
         
-       System.out.println(Camp.optimization(camp).toString());
-       
+        System.out.println(Camp.optimization(camp).toString());
+
     }
 
 }
+
