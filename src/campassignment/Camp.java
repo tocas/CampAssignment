@@ -27,6 +27,9 @@ public class Camp {
     public Camp(int countOfSections) {
         this.countOfSections = countOfSections;
         this.leaders = new ArrayList<Camper>(countOfSections);
+        for(int i = 0; i < countOfSections;i++){
+            sections.add(new Section());
+        }
     }
 
     private int computeAge(String stringDate) {
@@ -130,23 +133,12 @@ public class Camp {
         if (countOfSections == 0) {
             return;
         }
-        int membersInSection = root.largeOfSection() / countOfSections;
-
-        countOfOverSections = root.largeOfSection() % countOfSections;
-
-        int normalSection = countOfSections - countOfOverSections;
-
-        int sectionNumber = 0;
-        for (int i = 0; i < normalSection; i++) {
-            Section tmp = new Section(root.assignCampers(membersInSection));
-            if(sectionNumber < leaders.size()) tmp.setLeader(leaders.get(sectionNumber++));
-            sections.add(tmp);
-        }
-
-        for (int i = membersInSection; i < membersInSection + countOfOverSections; i++) {
-            Section tmp = new Section(root.assignCampers(membersInSection + 1));
-            if(sectionNumber < leaders.size()) tmp.setLeader(leaders.get(sectionNumber++));
-            sections.add(tmp);
+        int size = root.getMemebers().size()-1;
+        int index = 0;
+        for (int i =size; i > 0; i--){
+            Camper c = root.getMemebers().get(i);
+            index = i%countOfSections;
+            sections.get(index).addMember(c);
         }
     }
 
