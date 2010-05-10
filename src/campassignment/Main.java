@@ -20,8 +20,8 @@ public class Main {
         
         Camp camp = new Camp(Integer.valueOf(args[1]));
         camp.importData(args[0]);
-        camp.setupLeaders();
-        camp.assignmentCampers();
+        //camp.setupLeaders();
+        //camp.assignmentCampers();
         System.out.println(camp.toString());
         
         System.out.println(Camp.optimization(camp).toString());
