@@ -153,7 +153,11 @@ public class Camp {
     public int getSumMaxDifference() {
         int maxDifference = 0;
         for (Section section : sections) {
-            maxDifference = maxDifference + section.maxDifference();
+            for (Section section1 : sections) {
+                if(!section.equals(section1)){
+                    maxDifference =+ Section.sumDifference(section, section1);
+                }
+            }
         }
         return maxDifference;
     }

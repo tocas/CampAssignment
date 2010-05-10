@@ -60,16 +60,14 @@ public class Section {
         }
     }
 
-    public int maxDifference(){
-        int max = 0;
-        if(members.isEmpty()) return 0;
-        for(int i = 0;i < members.size();i++){
-            max = Math.max(max, Camper.getDifference(leader, members.get(i)));
-            for(int j = i;j < members.size();j++){
-                max = Math.max(max, Camper.getDifference(members.get(i),members.get(j)));
-            }
+    public static int sumDifference(Section a, Section b){
+        int sum = 0;
+        for (int i = 0; i < Math.max(a.getMemebers().size(), b.getMemebers().size())/2; i++) {
+            sum =+ Camper.getDifference(a.getMemebers().get(i), b.getMemebers().get(i));
+            sum =+ Camper.getDifference(a.getMemebers().get(a.getMemebers().size() - i),
+                            b.getMemebers().get(b.getMemebers().size() - i));
         }
-        return max;
+        return sum;
     }
 
     public int largeOfSection(){
@@ -85,7 +83,6 @@ public class Section {
         for(Camper c : members){
             returnString = returnString + "\n" + c.toString();
         }
-        returnString = returnString +"\n Max difference is: " + maxDifference();
         return returnString;
     }
 
