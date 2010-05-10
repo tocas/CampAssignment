@@ -155,7 +155,7 @@ public class Camp {
         for (Section section : sections) {
             for (Section section1 : sections) {
                 if(!section.equals(section1)){
-                    maxDifference =+ Section.sumDifference(section, section1);
+                    maxDifference = maxDifference + Section.sumDifference(section, section1);
                 }
             }
         }

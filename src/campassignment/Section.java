@@ -63,9 +63,9 @@ public class Section {
     public static int sumDifference(Section a, Section b){
         int sum = 0;
         for (int i = 0; i < Math.max(a.getMemebers().size(), b.getMemebers().size())/2; i++) {
-            sum =+ Camper.getDifference(a.getMemebers().get(i), b.getMemebers().get(i));
-            sum =+ Camper.getDifference(a.getMemebers().get(a.getMemebers().size() - i),
-                            b.getMemebers().get(b.getMemebers().size() - i));
+            sum = sum + Camper.getDifference(a.getMemebers().get(i), b.getMemebers().get(i));
+            sum = sum + Camper.getDifference(a.getMemebers().get(a.getMemebers().size() - i-1),
+                            b.getMemebers().get(b.getMemebers().size() - i-1));
         }
         return sum;
     }
