@@ -5,6 +5,8 @@
 
 package campassignment;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author tocas
@@ -14,11 +16,18 @@ public class Camper implements Comparable<Camper>{
     private String name;
     private int gendar;
     private int age;
+    private ArrayList<Camper> canBeWith;
+    private ArrayList<Camper> canNotBeWith;
+    private Section section;
+
 
     public Camper(int ID, String name, int age,int gendar){
         this.ID = ID;
         this.name = name;
         this.age = age;
+        this.canBeWith = new ArrayList<Camper>();
+        this.canNotBeWith = new ArrayList<Camper>();
+        section = null;
     }
 
     public int getID() {
@@ -61,7 +70,33 @@ public class Camper implements Comparable<Camper>{
 
     public Camper hadrCopy(){
         return new Camper(this.ID,this.name,this.age,this.gendar);
-
     }
+
+    public ArrayList<Camper> getCanBeWith() {
+        return canBeWith;
+    }
+
+    public void setCanBeWith(Camper camper) {
+        this.canBeWith.add(camper);
+    }
+
+    public ArrayList<Camper> getCanNotBeWith() {
+        return canNotBeWith;
+    }
+
+    public void setCanNotBeWith(Camper camper) {
+        this.canNotBeWith.add(camper);
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
+
+
+
 
 }

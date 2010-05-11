@@ -14,11 +14,14 @@ import java.util.Collections;
  */
 public class Section {
 
+    private int ID;
     private String name = "Default Section";
     private ArrayList<Camper> members;
     private Camper leader = null;
 
-    public Section(){
+
+    public Section(int ID){
+        this.ID = ID;
         members = new ArrayList<Camper>();
     }
 
@@ -108,13 +111,40 @@ public class Section {
     }
 
     public Section hardCopy(){
-        Section tmp = new Section();
+        Section tmp = new Section(this.ID);
         for (Camper camper : members) {
             tmp.addMember(camper.hadrCopy());
         }
         tmp.setName(this.name);
         if(leader != null) tmp.setLeader(leader.hadrCopy());
         return tmp;
+    }
+
+    public ArrayList<Camper> separate(){
+        ArrayList<Camper> separateThis = canNotBeAMember();
+        ArrayList<Camper> returnList = new ArrayList<Camper>();
+        for (Camper camper : members) {
+            if(separateThis.contains(camper))
+        }
+r
+    }
+
+
+
+    public ArrayList<Camper> canNotBeAMember(){
+        ArrayList<Camper> canNot = new ArrayList<Camper>();
+        for (Camper camper : members) {
+            canNot.addAll(camper.getCanNotBeWith());
+        }
+        return canNot;
+    }
+
+    public ArrayList<Camper> mustBeAMember(){
+        ArrayList<Camper> mustBe = new ArrayList<Camper>();
+        for (Camper camper : members) {
+            mustBe.addAll(camper.getCanBeWith());
+        }
+        return mustBe;
     }
 
 

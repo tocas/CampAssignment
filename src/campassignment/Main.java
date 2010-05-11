@@ -21,6 +21,8 @@ public class Main {
         Camp camp = new Camp(Integer.valueOf(args[1]));
         camp.importData(args[0]);
         camp.setupLeaders();
+        camp.setupTogether(args[2]);
+        camp.setupSeparate(args[3]);
         camp.assignmentCampers();
         System.out.println(camp.toString());
         
