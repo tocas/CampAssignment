@@ -17,26 +17,27 @@
 	
 	Project follow this conditions:
 		- difference between count Campers in Sections it equal max. 1
-		- difference between age Campers in Section is minumum
+		- campers in sections has similar age distribution, sections are in balance
                 - every sections can have assign leader
-                - difference between age Campers in Section is calculate included leader
+                - assignment respect conditions whitch campers must be together and whitch don't
+
 
   Algoritm for find optimal members in Sections
   
   1. sort all member by age
-  2. split into sections, 
-    if count of member is not divide cout of Sections than last Sections has +1 member
-  3. optimization result of function getSumMaxDifference
-    Using switching Camper between Sections create new instances
-    Select instances with the lowest result from function getSumMaxDifference()
-  
+  2. assingt campers whitch must be together
+  3. complet sections into same size
+        assignment respect conditon about
+  4. with the rest of unassignt camper complete the assignment
+        from the oldes into the younges one by one into section
+
   
 ## Using program
 
   In directory dist is CampAssignment.jar for download
   
   Usage from CLI:
-  java -jar CampAssignment.jar <fileName> <numberOfSections>
+  java -jar CampAssignment.jar <fileName> <numberOfSections> <define together campers> <define separated campers>
   
   <fileName> is CSV file with this fields separated with ";"
     1. field = ID (integer value)
@@ -47,6 +48,22 @@
     
   <numberOfSections> integer value, into how many Sections you would like split members
   First <numberOfSection> campers are assign as leader in their file order
+
+  <define together campers> is text char contain campers ID's whitch must be together in section
+  camper pair is separated using ":" new pair is separed using ";"
+
+  example: "14:80;32:78" without apostrophe
+
+  <define separated campers> is text char contains campers ID's whtich cannot be in the same section
+  camper pair is separated using ":" new pair is separed using ";"
+
+  example: "40:2;105:103" without apostrophe
+
+
+  Exampler first run:
+
+  /Users/tocas/Desktop/Seznam.csv 6 14:80;32:78 40:2;105:103
+
 
 ## Authors
 
