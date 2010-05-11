@@ -18,7 +18,7 @@ public class Camper implements Comparable<Camper>{
     private int age;
     private ArrayList<Camper> canBeWith;
     private ArrayList<Camper> canNotBeWith;
-    private Section section;
+    private int sectionID;
 
 
     public Camper(int ID, String name, int age,int gendar){
@@ -27,7 +27,7 @@ public class Camper implements Comparable<Camper>{
         this.age = age;
         this.canBeWith = new ArrayList<Camper>();
         this.canNotBeWith = new ArrayList<Camper>();
-        section = null;
+        sectionID = -1;
     }
 
     public int getID() {
@@ -88,12 +88,12 @@ public class Camper implements Comparable<Camper>{
         this.canNotBeWith.add(camper);
     }
 
-    public Section getSection() {
-        return section;
+    public int getSectionID() {
+        return sectionID;
     }
 
-    public void setSection(Section section) {
-        this.section = section;
+    public void setSectionID(int sectionID) {
+        this.sectionID = sectionID;
     }
 
 

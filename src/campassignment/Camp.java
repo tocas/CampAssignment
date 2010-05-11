@@ -174,7 +174,7 @@ public class Camp {
         for (int i =size; i > 0; i--){
             Camper c = root.getMemebers().get(i);
             index = i%countOfSections;
-            c.setSection(sections.get(index));
+            c.setSectionID(index);
             sections.get(index).addMember(c);
         }
     }
@@ -279,14 +279,35 @@ public class Camp {
         return solution;
     }
 
-    public boolean fixSeparate(){
-        boolean ok = true;
-        for (Section section : sections) {
-            for (Camper camper : section.getMemebers()) {
-                
+    public boolean isTogetherOK(){
+        for (Camper camper : allTogether) {
+            for (Camper camper1 : camper.getCanBeWith()) {
+                if(camper.getSectionID() != camper1.getSectionID()) return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isSeparateOK(){
+        for (Camper camper : allSeparate) {
+            for (Camper camper1 : camper.getCanNotBeWith()) {
+                if(camper.getSectionID() != camper1.getSectionID()) return false;
+            }
+        }
+        return true;
+    }
+
+    public void fixTogetherOK(){
+        for(int i = 0; i < sections.size();i++){
+            for (Camper camper : sections.get(i).getMemebers()) {
+                for (Camper camper1 : camper.getCanBeWith()) {
+                    if(camper.getSectionID() != camper1.getSectionID()){
+
+                    }
+                }
             }
         }
     }
 
-    public void fixTogether()
+
 }

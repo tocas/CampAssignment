@@ -110,6 +110,16 @@ public class Section {
         this.name = name;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    
+
     public Section hardCopy(){
         Section tmp = new Section(this.ID);
         for (Camper camper : members) {
@@ -120,15 +130,16 @@ public class Section {
         return tmp;
     }
 
-    public ArrayList<Camper> separate(){
-        ArrayList<Camper> separateThis = canNotBeAMember();
-        ArrayList<Camper> returnList = new ArrayList<Camper>();
-        for (Camper camper : members) {
-            if(separateThis.contains(camper))
-        }
-r
-    }
 
+
+   public boolean isTogetherOK(){
+       for (Camper camper : members) {
+           for (Camper camper1 : camper.getCanBeWith()) {
+               if(camper1.getSectionID() != this.getID()) return false;
+           }
+       }
+       return true;
+   }
 
 
     public ArrayList<Camper> canNotBeAMember(){
