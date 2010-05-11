@@ -25,10 +25,16 @@ public class Camp {
     private ArrayList<Camper> allTogether = new ArrayList<Camper>();
     private ArrayList<Camper> allSeparate = new ArrayList<Camper>();
     private int countOfOverSections = 0;
+    private int sizeOfSection = 0;
+    private int sizeOfOverSections = 0;
+    private int useOverSections = 0;
 
     public Camp(int countOfSections) {
         this.countOfSections = countOfSections;
         this.leaders = new ArrayList<Camper>(countOfSections);
+        countOfOverSections = root.getMemebers().size()%countOfSections;
+        sizeOfSection = root.getMemebers().size()/countOfSections;
+        sizeOfOverSections = sizeOfSection +1;
         for(int i = 0; i < countOfSections;i++){
             sections.add(new Section(i));
         }
@@ -169,6 +175,7 @@ public class Camp {
         if (countOfSections == 0) {
             return;
         }
+
         int size = root.getMemebers().size()-1;
         int index = 0;
         for (int i =size; i > 0; i--){
@@ -179,6 +186,81 @@ public class Camp {
         }
     }
 
+
+    public boolean assignmentCampersWithOptimum(){
+        root.sortSection();
+        if (countOfSections == 0) {
+            return false;
+        }
+
+        //precondition more single campers than duplicate campers
+        int index = 0;
+        for(int j = 0; j < allTogether.size();j++){
+            Camper c = allTogether.get(j);
+            root.getMemebers().remove(c);
+            if(c.getCanBeWith().size()+1 > maxFreeSection())
+            index = j%countOfSections;
+            for (Camper camper : c.getCanBeWith()) {
+                camper.setSectionID(index);
+                root.getMemebers().remove(camper);
+                sections.get(index).addMember(camper);
+            }
+            c.setSectionID(index);
+            sections.get(index).addMember(c);
+        }
+        //fill sections into the same level 
+        int maxFullSection = 0;
+        for (Section section : sections) {
+            maxFullSection = Math.max(maxFullSection, section.largeOfSection());
+        }
+        int diference = 0;
+        int tmpLarge = 0;
+        for (int j = 0; j<sections.size(); j++) {
+            tmpLarge = sections.get(j).largeOfSection();
+            for(int i = 0; i < maxFullSection-tmpLarge;i++){
+                // Can I assign camper into section
+                Camper camper = root.getMemebers().remove(root.getMemebers().size()-1);
+                if(sections.get(j-diference).canNotBeAMember().contains(camper)){
+                    camper.setSectionID(j+1);
+                    sections.get(j+1).addMember(camper);
+                    diference = diference+1;
+                } else {
+                    sections.get(j-diference).addMember(camper);
+                    camper.setSectionID(j-diference);
+                    diference = 0;
+                }
+            }
+        }
+        //precondition camper cannot belong into more then one section
+        int size = root.getMemebers().size()-1;
+        index = 0;
+        diference = 0;
+        for (int i =size; i > 0; i--){
+            Camper c = root.getMemebers().get(i);
+            index = i%countOfSections;
+            if(sections.get(index).canNotBeAMember().contains(c)){
+                c.setSectionID((index+1)%countOfSections);
+                sections.get(index+1).addMember(c);
+                diference = diference + 1;
+            }else{
+                c.setSectionID(index-diference);
+                sections.get(index-diference).addMember(c);
+                diference = 0;
+            }
+        }
+        return true;
+    }
+
+    private int maxFreeSection(){
+        int max = 0;
+        for (Section section : sections) {
+            max = Math.max(max,section.freePlace());
+        }
+        return max;
+    }
+
+
+
     public int getSumMaxDifference() {
         int maxDifference = 0;
         int localDifference = 0;
@@ -186,11 +268,12 @@ public class Camp {
             for (Section section1 : sections) {
                 if(!section.equals(section1)){
                     localDifference = Section.sumDifference(section, section1);
-                    System.out.println( section.getLeader().toString()
+                    /* System.out.println( section.getLeader().toString()
                                         + " vs. "+
                                         section1.getLeader().toString()
                                         + "\n Ma odchylku " +
                                         localDifference);
+                     */
                     maxDifference = maxDifference + localDifference;
                 }
             }
@@ -291,23 +374,14 @@ public class Camp {
     public boolean isSeparateOK(){
         for (Camper camper : allSeparate) {
             for (Camper camper1 : camper.getCanNotBeWith()) {
-                if(camper.getSectionID() != camper1.getSectionID()) return false;
+                System.out.println(camper.toString() + " compare to " + camper1.toString());
+                if(camper.getSectionID() == camper1.getSectionID()) return false;
             }
         }
         return true;
     }
 
-    public void fixTogetherOK(){
-        for(int i = 0; i < sections.size();i++){
-            for (Camper camper : sections.get(i).getMemebers()) {
-                for (Camper camper1 : camper.getCanBeWith()) {
-                    if(camper.getSectionID() != camper1.getSectionID()){
-
-                    }
-                }
-            }
-        }
-    }
+    
 
 
 }

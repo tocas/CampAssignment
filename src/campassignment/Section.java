@@ -18,10 +18,17 @@ public class Section {
     private String name = "Default Section";
     private ArrayList<Camper> members;
     private Camper leader = null;
+    private int maxSize = 0;
 
 
     public Section(int ID){
         this.ID = ID;
+        members = new ArrayList<Camper>();
+    }
+
+    public Section(int ID,int maxSize){
+        this.ID = ID;
+        this.maxSize = maxSize;
         members = new ArrayList<Camper>();
     }
 
@@ -51,6 +58,10 @@ public class Section {
 
     public void setLeader(Camper leader) {
         this.leader = leader;
+    }
+
+    public int freePlace(){
+        return maxSize - members.size();
     }
     
 
@@ -117,6 +128,9 @@ public class Section {
     public void setID(int ID) {
         this.ID = ID;
     }
+
+
+
 
     
 

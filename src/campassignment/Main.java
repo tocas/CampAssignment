@@ -20,7 +20,7 @@ public class Main {
         camp.setupLeaders();
         camp.setupTogether(args[2]);
         camp.setupSeparate(args[3]);
-        camp.assignmentCampers();
+        camp.assignmentCampersWithOptimum();
         if (camp.isTogetherOK()) {
             System.out.println("Together OK");
         } else {
