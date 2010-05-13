@@ -51,11 +51,16 @@
 
   <define together campers> is text char contain campers ID's whitch must be together in section
   camper pair is separated using ":" new pair is separed using ";"
+  is prohibited make transient dependency for example: 43:13;13:25
+    otherwhise the aloritm cam return wrong assignment
+
 
   example: "14:80;32:78" without apostrophe
 
   <define separated campers> is text char contains campers ID's whtich cannot be in the same section
   camper pair is separated using ":" new pair is separed using ";"
+  every camper can be separated only with one another camper,
+    otherwhise the aloritm cam return wrong assignment
 
   example: "40:2;105:103" without apostrophe
 

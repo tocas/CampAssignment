@@ -26,15 +26,12 @@ public class Camp {
     private ArrayList<Camper> allSeparate = new ArrayList<Camper>();
     private int countOfOverSections = 0;
     private int sizeOfSection = 0;
-    private int sizeOfOverSections = 0;
-    private int useOverSections = 0;
 
     public Camp(int countOfSections) {
         this.countOfSections = countOfSections;
         this.leaders = new ArrayList<Camper>(countOfSections);
         countOfOverSections = root.getMemebers().size()%countOfSections;
         sizeOfSection = root.getMemebers().size()/countOfSections;
-        sizeOfOverSections = sizeOfSection +1;
         for(int i = 0; i < countOfSections;i++){
             sections.add(new Section(i));
         }
@@ -62,18 +59,6 @@ public class Camp {
 
     public void importData(String fileName) {
         ArrayList<Camper> members = new ArrayList<Camper>();
-        /*
-        members.add(new Camper(1,"Franta",7));
-        members.add(new Camper(2,"Karel",9));
-        members.add(new Camper(3,"Dáša",8));
-        members.add(new Camper(4,"Ivana",9));
-        members.add(new Camper(5,"Jindra",8));
-        members.add(new Camper(6,"Jitka",6));
-        members.add(new Camper(7,"Pepa",7));
-        members.add(new Camper(8,"Tomas",7));
-
-         */
-
         int ID = 0;
         String name = "";
         String stringDate = "";
@@ -193,21 +178,28 @@ public class Camp {
             return false;
         }
 
+        ArrayList<Camper> tmp = new ArrayList<Camper>();
         //precondition more single campers than duplicate campers
         int index = 0;
-        for(int j = 0; j < allTogether.size();j++){
-            Camper c = allTogether.get(j);
+        int j = 0;
+        while(!allTogether.isEmpty()){
+            Camper c = allTogether.remove(0);
             root.getMemebers().remove(c);
+            tmp.add(c);
             if(c.getCanBeWith().size()+1 > maxFreeSection())
             index = j%countOfSections;
             for (Camper camper : c.getCanBeWith()) {
                 camper.setSectionID(index);
                 root.getMemebers().remove(camper);
+                allTogether.remove(camper);
+                tmp.add(camper);
                 sections.get(index).addMember(camper);
             }
             c.setSectionID(index);
             sections.get(index).addMember(c);
+            j++;
         }
+        allTogether = tmp;
         //fill sections into the same level 
         int maxFullSection = 0;
         for (Section section : sections) {
@@ -215,14 +207,14 @@ public class Camp {
         }
         int diference = 0;
         int tmpLarge = 0;
-        for (int j = 0; j<sections.size(); j++) {
+        for (j = 0; j<sections.size(); j++) {
             tmpLarge = sections.get(j).largeOfSection();
             for(int i = 0; i < maxFullSection-tmpLarge;i++){
                 // Can I assign camper into section
                 Camper camper = root.getMemebers().remove(root.getMemebers().size()-1);
                 if(sections.get(j-diference).canNotBeAMember().contains(camper)){
-                    camper.setSectionID(j+1);
-                    sections.get(j+1).addMember(camper);
+                    camper.setSectionID((j+1)%countOfSections);
+                    sections.get((j+1)%countOfSections).addMember(camper);
                     diference = diference+1;
                 } else {
                     sections.get(j-diference).addMember(camper);
@@ -365,6 +357,7 @@ public class Camp {
     public boolean isTogetherOK(){
         for (Camper camper : allTogether) {
             for (Camper camper1 : camper.getCanBeWith()) {
+                System.out.println(camper.toString() + " compare to " + camper1.toString());
                 if(camper.getSectionID() != camper1.getSectionID()) return false;
             }
         }
