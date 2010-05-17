@@ -17,10 +17,12 @@ public class Main {
 
         Camp camp = new Camp(Integer.valueOf(args[1]));
         camp.importData(args[0]);
+        //camp.autoImport(50);
         camp.setupLeaders();
         camp.setupTogether(args[2]);
         camp.setupSeparate(args[3]);
-        camp.assignmentCampersWithOptimum();
+        //camp.autoTogetherSeparate(2, 50);
+        //camp.assignmentCampersWithOptimum();
         if (camp.isTogetherOK()) {
             System.out.println("Together OK");
         } else {
