@@ -19,8 +19,6 @@ public class Section {
     private ArrayList<Camper> members;
     private Camper leader = null;
     private int maxSize = 0;
-    private int cutParts = 0;
-    private int cutUse = 0;
 
 
     public Section(int ID){
@@ -65,24 +63,7 @@ public class Section {
     public int freePlace(){
         return maxSize - members.size();
     }
-
-    public int getCutParts() {
-        return cutParts;
-    }
-
-    public void setCutParts(int cutParts) {
-        this.cutParts = cutParts;
-    }
-
-    public int getCutUse() {
-        return cutUse;
-    }
-
-    public void setCutUse(int cutUse) {
-        this.cutUse = cutUse;
-    }
-
-
+    
 
     public void addMember(Camper c){
         members.add(c);
@@ -197,10 +178,8 @@ public class Section {
     }
 
     public Camper getGoldenRatio(){
-        int size = members.size()/cutParts;
+        int size = members.size();
         int camperPosition = (int) (size / goldenRatio(5));
-        camperPosition = camperPosition + cutUse*size;
-        cutUse++;
         return members.get(camperPosition);
     }
 

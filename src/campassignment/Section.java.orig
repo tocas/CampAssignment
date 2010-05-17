@@ -14,28 +14,23 @@ import java.util.Collections;
  */
 public class Section {
 
+    private int ID;
     private String name = "Default Section";
     private ArrayList<Camper> members;
-    private int order = -1;
     private Camper leader = null;
+    private int maxSize = 0;
+    private int cutParts = 0;
+    private int cutUse = 0;
 
-    public Camper getLeader() {
-        return leader;
+
+    public Section(int ID){
+        this.ID = ID;
+        members = new ArrayList<Camper>();
     }
 
-    public void setLeader(Camper leader) {
-        this.leader = leader;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
-    public Section(){
+    public Section(int ID,int maxSize){
+        this.ID = ID;
+        this.maxSize = maxSize;
         members = new ArrayList<Camper>();
     }
 
@@ -47,7 +42,11 @@ public class Section {
     public Section(String name,ArrayList<Camper> members){
         this.name = name;
         this.members = members;
-         Collections.sort(this.members);
+        //Collections.sort(this.members);
+    }
+
+    public void sortSection(){
+        Collections.sort(this.members);
     }
 
     public ArrayList<Camper> getMemebers(){
@@ -55,25 +54,53 @@ public class Section {
         return members;
     }
 
+    public Camper getLeader() {
+        return leader;
+    }
+
+    public void setLeader(Camper leader) {
+        this.leader = leader;
+    }
+
+    public int freePlace(){
+        return maxSize - members.size();
+    }
+
+    public int getCutParts() {
+        return cutParts;
+    }
+
+    public void setCutParts(int cutParts) {
+        this.cutParts = cutParts;
+    }
+
+    public int getCutUse() {
+        return cutUse;
+    }
+
+    public void setCutUse(int cutUse) {
+        this.cutUse = cutUse;
+    }
+
+
+
     public void addMember(Camper c){
         members.add(c);
     }
     public void addMembers(ArrayList<Camper> members){
         for (Camper camper : members) {
-            members.add(camper);
+            this.members.add(camper);
         }
     }
 
-
-    public int maxDifference(){
-        int max = 0;
-        if(members.isEmpty()) return 0;
-        for(int i = 0;i < members.size();i++){
-            for(int j = i;j < members.size();j++){
-                max = Math.max(max, Camper.getDifference(members.get(i),members.get(j)));
-            }
+    public static int sumDifference(Section a, Section b){
+        int sum = 0;
+        for (int i = 0; i < Math.max(a.getMemebers().size(), b.getMemebers().size())/2; i++) {
+            sum = sum + Camper.getDifference(a.getMemebers().get(i), b.getMemebers().get(i));
+            sum = sum + Camper.getDifference(a.getMemebers().get(a.getMemebers().size() - i-1),
+                            b.getMemebers().get(b.getMemebers().size() - i-1));
         }
-        return max;
+        return sum;
     }
 
     public int largeOfSection(){
@@ -82,12 +109,19 @@ public class Section {
 
     @Override
     public String toString(){
-        String retrunString = "List of members section " + this.name;
-        for(Camper c : members){
-            retrunString = retrunString + "\n" + c.toString();
+        String returnString = "List of members section " + this.name;
+        returnString = returnString + "\n Leader is: ";
+        int sum = 0;
+        for (Camper camper : members) {
+            sum = sum + camper.getAge();
         }
-        retrunString = retrunString +"\n Max difference is: " + maxDifference();
-        return retrunString;
+        if(leader == null) {returnString = returnString + "empty";}
+        else {returnString = returnString +  leader.toString();}
+        for(Camper c : members){
+            returnString = returnString + "\n" + c.toString();
+        }
+        returnString = returnString + "\n Sum age of members: " + sum;
+        return returnString;
     }
 
     public ArrayList<Camper> assignCampers(int count){
@@ -111,13 +145,68 @@ public class Section {
         this.name = name;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+
+
+
+    
+
     public Section hardCopy(){
-        Section tmp = new Section();
+        Section tmp = new Section(this.ID);
         for (Camper camper : members) {
             tmp.addMember(camper.hadrCopy());
         }
         tmp.setName(this.name);
+        if(leader != null) tmp.setLeader(leader.hadrCopy());
         return tmp;
+    }
+
+
+
+   public boolean isTogetherOK(){
+       for (Camper camper : members) {
+           for (Camper camper1 : camper.getCanBeWith()) {
+               if(camper1.getSectionID() != this.getID()) return false;
+           }
+       }
+       return true;
+   }
+
+
+    public ArrayList<Camper> canNotBeAMember(){
+        ArrayList<Camper> canNot = new ArrayList<Camper>();
+        for (Camper camper : members) {
+            canNot.addAll(camper.getCanNotBeWith());
+        }
+        return canNot;
+    }
+
+    public ArrayList<Camper> mustBeAMember(){
+        ArrayList<Camper> mustBe = new ArrayList<Camper>();
+        for (Camper camper : members) {
+            mustBe.addAll(camper.getCanBeWith());
+        }
+        return mustBe;
+    }
+
+    public Camper getGoldenRatio(){
+        int size = members.size()/cutParts;
+        int camperPosition = (int) (size / goldenRatio(5));
+        camperPosition = camperPosition + cutUse*size;
+        cutUse++;
+        return members.get(camperPosition);
+    }
+
+    private double goldenRatio(int n) {
+       if (n == 0) return 1;
+       return 1.0 + 1.0 / goldenRatio(n-1);
     }
 
 
