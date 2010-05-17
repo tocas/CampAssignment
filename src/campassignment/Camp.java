@@ -209,6 +209,8 @@ public class Camp {
         int tmpLarge = 0;
         for (j = 0; j<sections.size(); j++) {
             tmpLarge = sections.get(j).largeOfSection();
+            root.setCutParts(maxFullSection-tmpLarge);
+            root.setCutUse(0);
             for(int i = 0; i < maxFullSection-tmpLarge;i++){
                 // Can I assign camper into section
                 Camper camper = root.getGoldenRatio();
@@ -237,7 +239,7 @@ public class Camp {
                 diference = diference + 1;
             }else{
                 c.setSectionID(index-diference);
-                sections.get(index-diference).addMember(c);
+                sections.get((countOfSections+index-diference)%countOfSections).addMember(c);
                 diference = 0;
             }
         }
