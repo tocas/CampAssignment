@@ -211,7 +211,8 @@ public class Camp {
             tmpLarge = sections.get(j).largeOfSection();
             for(int i = 0; i < maxFullSection-tmpLarge;i++){
                 // Can I assign camper into section
-                Camper camper = root.getMemebers().remove(root.getMemebers().size()-1);
+                Camper camper = root.getGoldenRatio();
+                root.getMemebers().remove(camper);
                 if(sections.get(j-diference).canNotBeAMember().contains(camper)){
                     camper.setSectionID((j+1)%countOfSections);
                     sections.get((j+1)%countOfSections).addMember(camper);

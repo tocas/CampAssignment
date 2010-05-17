@@ -92,11 +92,16 @@ public class Section {
     public String toString(){
         String returnString = "List of members section " + this.name;
         returnString = returnString + "\n Leader is: ";
+        int sum = 0;
+        for (Camper camper : members) {
+            sum = sum + camper.getAge();
+        }
         if(leader == null) {returnString = returnString + "empty";}
         else {returnString = returnString +  leader.toString();}
         for(Camper c : members){
             returnString = returnString + "\n" + c.toString();
         }
+        returnString = returnString + "\n Sum age of members: " + sum;
         return returnString;
     }
 
@@ -170,6 +175,17 @@ public class Section {
             mustBe.addAll(camper.getCanBeWith());
         }
         return mustBe;
+    }
+
+    public Camper getGoldenRatio(){
+        int size = members.size();
+        int camperPosition = (int) (size / goldenRatio(5));
+        return members.get(camperPosition);
+    }
+
+    private double goldenRatio(int n) {
+       if (n == 0) return 1;
+       return 1.0 + 1.0 / goldenRatio(n-1);
     }
 
 
