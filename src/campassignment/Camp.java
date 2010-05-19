@@ -364,9 +364,9 @@ public class Camp {
     @Override
     public String toString() {
         String returnString = "";
-      /*  for (Section section : sections) {
+        for (Section section : sections) {
             returnString = returnString + "\n" + section.toString();
-        } */
+        } 
         returnString = returnString + " Sum max difference: " + getSumMaxDifference();
         return returnString;
     }
