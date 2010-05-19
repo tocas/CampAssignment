@@ -58,7 +58,7 @@ public class Camper implements Comparable<Camper>{
     public String toString(){
         return ID+" "+name+" "+age + " " + gendar + " Section: " + sectionID;
     }
-
+    @Override
     public int compareTo(Camper c){
         return this.age - c.getAge();
     }
