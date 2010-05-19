@@ -25,7 +25,6 @@ public class Camper implements Comparable<Camper>{
         this.ID = ID;
         this.name = name;
         this.age = age;
-        this.gendar = gendar;
         this.canBeWith = new ArrayList<Camper>();
         this.canNotBeWith = new ArrayList<Camper>();
         sectionID = -1;

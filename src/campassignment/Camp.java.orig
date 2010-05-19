@@ -8,7 +8,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 /**
@@ -112,6 +114,76 @@ public class Camp {
         root = new Section("Full members", members);
     }
 
+    public void autoImport(int count){
+        ArrayList<Camper> members = new ArrayList<Camper>();
+        int age = 0;
+        Camper c = null;
+        Date d = new Date();
+        Random generator2 = new Random(d.getTime());
+        for(int i = 0; i < count;i++){
+            age = generator2.nextInt(11)+7;
+            c = new Camper(i,String.valueOf(i),age,0);
+            members.add(c);
+            allCamperID[c.getID()] = c;
+        }
+        root = new Section("Full members", members);
+
+    }
+
+
+    public void autoTogetherSeparate(int count,int max){
+        Date d = new Date();
+        Random generator2 = new Random(d.getTime());
+        int[] together = new int[count*2];
+        int[] separated = new int[count*2];
+        boolean ok = false;
+        while(!ok){
+        ok = true;
+        System.out.println("Time generate");
+        //generate
+            for(int i = 0; i < count*2; i = i + 2){
+                together[i] = generator2.nextInt(max);
+                together[i+1] = generator2.nextInt(max);
+                separated[i] = generator2.nextInt(max);
+                separated[i+1] = generator2.nextInt(max);
+            }
+
+            // togenter si all diffrend
+            for(int i = 0; i < count*2;i++){
+                for(int j = i+1;j < count *2;j++){
+                    if(together[i] == together[j]) ok = false;
+                }
+            }
+
+            //separatet don't must be together
+            for(int i = 0; i < count*2; i = i + 2){
+                for(int j = 0; j < count*2; j = j + 2){
+                    if(together[i] == separated[j]){
+                        if(together[i+1] == separated[j+1]) ok = false;
+                    }
+                }
+            }
+        }
+        //add to Campers
+        int a =0, b = 0;
+        for(int i = 0; i < count*2; i = i + 2){
+            a = together[i];
+            b = together[i+1];
+            allCamperID[a].setCanBeWith(allCamperID[b]);
+            allCamperID[b].setCanBeWith(allCamperID[a]);
+            allTogether.add(allCamperID[a]);
+            allTogether.add(allCamperID[b]);
+            a = separated[i];
+            b = separated[i+1];
+            allCamperID[a].setCanNotBeWith(allCamperID[b]);
+            allCamperID[b].setCanNotBeWith(allCamperID[a]);
+            allSeparate.add(allCamperID[a]);
+            allSeparate.add(allCamperID[b]);
+        }
+
+
+    }
+
     public void setupLeaders(){
         int i = 0;
         for (Camper camper : root.assignCampers(countOfSections)) {
@@ -209,8 +281,6 @@ public class Camp {
         int tmpLarge = 0;
         for (j = 0; j<sections.size(); j++) {
             tmpLarge = sections.get(j).largeOfSection();
-            root.setCutParts(maxFullSection-tmpLarge);
-            root.setCutUse(0);
             for(int i = 0; i < maxFullSection-tmpLarge;i++){
                 // Can I assign camper into section
                 Camper camper = root.getGoldenRatio();
@@ -239,7 +309,7 @@ public class Camp {
                 diference = diference + 1;
             }else{
                 c.setSectionID(index-diference);
-                sections.get((countOfSections+index-diference)%countOfSections).addMember(c);
+                sections.get(index-diference).addMember(c);
                 diference = 0;
             }
         }
@@ -376,6 +446,8 @@ public class Camp {
         }
         return true;
     }
+
+
 
     
 

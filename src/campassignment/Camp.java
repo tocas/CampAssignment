@@ -139,7 +139,7 @@ public class Camp {
         boolean ok = false;
         while(!ok){
         ok = true;
-        System.out.println("Time generate");
+        //System.out.println("Time generate");
         //generate
             for(int i = 0; i < count*2; i = i + 2){
                 together[i] = generator2.nextInt(max);
@@ -281,6 +281,8 @@ public class Camp {
         int tmpLarge = 0;
         for (j = 0; j<sections.size(); j++) {
             tmpLarge = sections.get(j).largeOfSection();
+            root.setCutParts(maxFullSection-tmpLarge);
+            root.setCutUse(0);
             for(int i = 0; i < maxFullSection-tmpLarge;i++){
                 // Can I assign camper into section
                 Camper camper = root.getGoldenRatio();
@@ -305,11 +307,11 @@ public class Camp {
             index = i%countOfSections;
             if(sections.get(index).canNotBeAMember().contains(c)){
                 c.setSectionID((index+1)%countOfSections);
-                sections.get(index+1).addMember(c);
+                sections.get((index+1)%countOfSections).addMember(c);
                 diference = diference + 1;
             }else{
                 c.setSectionID(index-diference);
-                sections.get(index-diference).addMember(c);
+                sections.get((countOfSections+index-diference)%countOfSections).addMember(c);
                 diference = 0;
             }
         }
@@ -362,10 +364,10 @@ public class Camp {
     @Override
     public String toString() {
         String returnString = "";
-        for (Section section : sections) {
+      /*  for (Section section : sections) {
             returnString = returnString + "\n" + section.toString();
-        }
-        returnString = returnString + "\n Sum max difference: " + getSumMaxDifference();
+        } */
+        returnString = returnString + " Sum max difference: " + getSumMaxDifference();
         return returnString;
     }
 
@@ -446,8 +448,6 @@ public class Camp {
         }
         return true;
     }
-
-
 
     
 
